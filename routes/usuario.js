@@ -23,6 +23,6 @@ router.put('/:id',[],usuarioPut)
 
 router.delete('/:id',[],usuarioDelete)
 
-
+//Un mensaje de prueba el mono es una putita xd
 
 module.exports = router;
