@@ -54,17 +54,17 @@ const usuarioPost = async(req, res = response) => {
 const usuarioPut = async(req, res = response) => {
     const { id } = req.params;
     const body = req.body;
-    const mantenimiento = await Usuario.findByIdAndUpdate(id, body);
+    const usuario = await Usuario.findByIdAndUpdate(id, body);
     res.json({
-        mantenimiento
+        usuario
     })
 }
 
 const usuarioDelete = async(req, res = response) => {
     const { id } = req.params;
-    const mantenimiento = await Usuario.findByIdAndDelete(id);
+    const usuario = await Usuario.findByIdAndDelete(id);
     res.json({
-        mantenimiento
+        usuario
     })
 }
 

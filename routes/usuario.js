@@ -19,9 +19,9 @@ router.post('/', [
     // validateForm
 ], usuarioPost)
 
-router.put('/',[],usuarioPut)
+router.put('/:id',[],usuarioPut)
 
-router.delete('/',[],usuarioDelete)
+router.delete('/:id',[],usuarioDelete)
 
 
 
