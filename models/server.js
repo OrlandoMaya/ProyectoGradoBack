@@ -8,17 +8,16 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
 
-        this.userPath = '/api/users';
+        this.ciudadPath='/api/ciudad';
+        this.departamentoPath='/api/departamento'
+        this.usuarioPath = '/api/usuario';
         this.authPath = '/api/auth';
-        this.umbrellaPath = '/api/umbrella';
-        this.paymentPath = '/api/payment';
-        this.comboPath = '/api/combo';
-
+        this.estacionPath='/api/estacion';
+        this.mantenimientoPath='/api/mantenimiento';
+        this.ubicacionPath='/api/ubicacion';
         this.connectDB();
         this.middlewares();
         this.routes();
-
-
     }
 
     async connectDB() {
@@ -34,11 +33,14 @@ class Server {
     }
 
     routes() {
+        this.app.use(this.ciudadPath, require('../routes/ciudad'));
+        this.app.use(this.departamentoPath, require('../routes/departamento'));
+        this.app.use(this.ubicacionPath, require('../routes/ubicacion'));
+        this.app.use(this.estacionPath, require('../routes/estacion'));
+        this.app.use(this.mantenimientoPath, require('../routes/mantenimiento'));
         this.app.use(this.authPath, require('../routes/auth'));
-        this.app.use(this.userPath, require('../routes/users'));
-        this.app.use(this.umbrellaPath, require('../routes/umbrellas'));
-        this.app.use(this.paymentPath, require('../routes/payments'));
-        this.app.use(this.comboPath, require('../routes/combos'));
+        this.app.use(this.usuarioPath, require('../routes/usuario'));
+        
     }
 
     listen() {

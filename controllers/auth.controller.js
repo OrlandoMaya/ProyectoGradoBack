@@ -1,6 +1,6 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
-const User = require('../models/user.model');
+const Usuario = require('../models/usuario.model');
 const { generarJWT } = require('../helpers/generarJWT');
 
 const login = async(req, res = response) => {
@@ -10,7 +10,7 @@ const login = async(req, res = response) => {
     try {
 
         //Verificar email
-        const user = await User.findOne({ email })
+        const user = await Usuario.findOne({ email })
         if (!user) {
             return res.status(400).json({
                 msg: 'El correo o contraseña son incorrectos - correo'

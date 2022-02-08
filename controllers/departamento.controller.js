@@ -1,7 +1,7 @@
 const { response } = require('express');
 const Departamento = require('../models/departamento.model');
 
-const departamentoesGet = async(req, res = response) => {
+const departamentosGet = async(req, res = response) => {
     const departamentoes = await Departamento.find()
     res.json({
         departamentoes
@@ -45,9 +45,9 @@ const departamentoDelete = async(req, res = response) => {
 }
 
 module.exports = {
-    departamentoDelete,
+    departamentosGet,
     departamentoGet,
-    departamentoesGet,
+    departamentoPost,
     departamentoPut,
-    departamentoPost
+    departamentoDelete
 }

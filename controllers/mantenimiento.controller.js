@@ -1,7 +1,7 @@
 const { response } = require('express');
 const Mantenimiento = require('../models/mantenimiento.model');
 
-const mantenimientoesGet = async(req, res = response) => {
+const mantenimientosGet = async(req, res = response) => {
     const mantenimientoes = await Mantenimiento.find()
     res.json({
         mantenimientoes
@@ -47,7 +47,7 @@ const mantenimientoDelete = async(req, res = response) => {
 module.exports = {
     mantenimientoDelete,
     mantenimientoGet,
-    mantenimientoesGet,
+    mantenimientosGet,
     mantenimientoPut,
     mantenimientoPost
 }
