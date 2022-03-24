@@ -2,7 +2,7 @@ const { response } = require('express');
 const Usuario = require('../models/usuario.model');
 const bcryptjs = require('bcryptjs');
 
-const usuariosGet = async(req, res = reponse) => {
+const usuariosGet = async(req, res = response) => {
 
     const { limit = 20, from = 0 } = req.query;
 
@@ -21,7 +21,7 @@ const usuariosGet = async(req, res = reponse) => {
     })
 }
 
-const usuarioGet = async(req, res = reponse) => {
+const usuarioGet = async(req, res = response) => {
 
     const { id } = req.params;
     console.log(id)
@@ -74,5 +74,4 @@ module.exports = {
     usuarioPost,
     usuarioPut,
     usuarioDelete
-
 }

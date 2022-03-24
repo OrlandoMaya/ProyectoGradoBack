@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const { usuarioGet, usuariosGet, usuarioPost, usuarioPut, usuarioDelete } = require('../controllers/usuario.controller');
+const {login}=require('../controllers/auth.controller')
 const { check } = require('express-validator');
 const { validateForm } = require('../middlewares/validateField');
 // const { isRolValid, isEmailCreated } = require('../helpers/db-validators');
@@ -22,6 +23,8 @@ router.post('/', [
 router.put('/:id',[],usuarioPut)
 
 router.delete('/:id',[],usuarioDelete)
+
+router.post('/login',[],login)
 
 //Un mensaje de prueba el mono es una putita xd
 

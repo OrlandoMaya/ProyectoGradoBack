@@ -11,7 +11,6 @@ class Server {
         this.ciudadPath='/api/ciudad';
         this.departamentoPath='/api/departamento'
         this.usuarioPath = '/api/usuario';
-        this.authPath = '/api/auth';
         this.estacionPath='/api/estacion';
         this.mantenimientoPath='/api/mantenimiento';
         this.ubicacionPath='/api/ubicacion';
@@ -38,7 +37,6 @@ class Server {
         this.app.use(this.ubicacionPath, require('../routes/ubicacion'));
         this.app.use(this.estacionPath, require('../routes/estacion'));
         this.app.use(this.mantenimientoPath, require('../routes/mantenimiento'));
-        this.app.use(this.authPath, require('../routes/auth'));
         this.app.use(this.usuarioPath, require('../routes/usuario'));
         
     }

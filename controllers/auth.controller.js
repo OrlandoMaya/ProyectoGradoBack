@@ -1,16 +1,18 @@
 const { response } = require('express');
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario.model');
 const { generarJWT } = require('../helpers/generarJWT');
 
 const login = async(req, res = response) => {
 
     const { email, password } = req.body;
+    console.log(req.body)
 
     try {
 
         //Verificar email
-        const user = await Usuario.findOne({ email })
+        const user = await Usuario.findOne({ correo:email })
+        console.log(user)
         if (!user) {
             return res.status(400).json({
                 msg: 'El correo o contraseña son incorrectos - correo'
@@ -18,7 +20,8 @@ const login = async(req, res = response) => {
         }
 
         //Verificar contraseña
-        const validPassword = bcryptjs.compareSync(password, user.password);
+        const validPassword = bcrypt.compareSync(password, user.password);
+        console.log(validPassword)
         if (!validPassword) {
             return res.status(400).json({
                 msg: 'El correo o contraseña son incorrectos - password'
@@ -35,7 +38,7 @@ const login = async(req, res = response) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Las credenciales son incorrectas'
         })
     }
 
