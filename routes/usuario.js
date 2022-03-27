@@ -13,8 +13,7 @@ router.get('/', [
 ], usuariosGet)
 
 router.get('/:id', [
-    validateJWT,
-    isAdminRole
+    validateJWT
 ], usuarioGet)
 
 router.post('/', [
