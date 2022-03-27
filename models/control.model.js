@@ -26,4 +26,12 @@ const ControlSchema = Schema({
     
 })
 
+ControlSchema.methods.toJSON = function() {
+    const { __v, _id, ...control } = this.toObject();
+    control.uid = _id;
+    return control;
+}
+
+module.exports = model('Control', ControlSchema);
+
 module.exports = model('Control', ControlSchema);

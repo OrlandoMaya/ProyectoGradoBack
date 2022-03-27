@@ -23,4 +23,10 @@ const MantenimientoSchema = Schema({
     
 })
 
+MantenimientoSchema.methods.toJSON = function() {
+    const { __v, _id, ...mantenimiento } = this.toObject();
+    mantenimiento.uid = _id;
+    return mantenimiento;
+}
+
 module.exports = model('Mantenimiento', MantenimientoSchema);

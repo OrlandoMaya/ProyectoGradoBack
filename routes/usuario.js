@@ -3,12 +3,19 @@ const { usuarioGet, usuariosGet, usuarioPost, usuarioPut, usuarioDelete } = requ
 const {login}=require('../controllers/auth.controller')
 const { check } = require('express-validator');
 const { validateForm } = require('../middlewares/validateField');
+const { validateJWT } = require('../middlewares/validateJWT');
+const { isAdminRole } = require('../middlewares/validateRol');
 // const { isRolValid, isEmailCreated } = require('../helpers/db-validators');
 const router = Router();
 
-router.get('/', [], usuariosGet)
+router.get('/', [
+    validateJWT
+], usuariosGet)
 
-router.get('/:id', [], usuarioGet)
+router.get('/:id', [
+    validateJWT,
+    isAdminRole
+], usuarioGet)
 
 router.post('/', [
     // check('name', 'El nombre es obligatorio').not().isEmpty(),
@@ -18,11 +25,18 @@ router.post('/', [
     // check('email').custom(isEmailCreated),
     // check('rol').custom(isRolValid),
     // validateForm
+    validateJWT,
+    isAdminRole
 ], usuarioPost)
 
-router.put('/:id',[],usuarioPut)
+router.put('/:id',[
+    validateJWT
+],usuarioPut)
 
-router.delete('/:id',[],usuarioDelete)
+router.delete('/:id',[
+    validateJWT,
+    isAdminRole
+],usuarioDelete)
 
 router.post('/login',[],login)
 

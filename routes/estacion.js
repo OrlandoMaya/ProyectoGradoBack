@@ -1,15 +1,26 @@
 const { Router } = require('express');
 const { estacionGet,estacionesGet,estacionPost,estacionPut,estacionDelete } = require('../controllers/estacion.controller');
+const { validateJWT } = require('../middlewares/validateJWT');
 const router = Router();
 
-router.get('/:id', [], estacionGet)
+router.get('/:id', [
+    validateJWT,
+], estacionGet)
 
-router.get('/', [], estacionesGet)
+router.get('/', [
+    validateJWT,
+], estacionesGet)
 
-router.post('/', [], estacionPost)
+router.post('/', [
+    validateJWT,
+], estacionPost)
 
-router.put('/:id', [], estacionPut)
+router.put('/:id', [
+    validateJWT,
+], estacionPut)
 
-router.delete('/:id', [], estacionDelete)
+router.delete('/:id', [
+    validateJWT,
+], estacionDelete)
 
 module.exports = router;

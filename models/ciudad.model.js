@@ -14,4 +14,10 @@ const CiudadSchema = Schema({
     
 })
 
+CiudadSchema.methods.toJSON = function() {
+    const { __v, _id, ...ciudad } = this.toObject();
+    ciudad.uid = _id;
+    return ciudad;
+}
+
 module.exports = model('Ciudad', CiudadSchema);

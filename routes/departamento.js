@@ -1,15 +1,26 @@
 const { Router } = require('express');
 const { departamentoGet,departamentosGet,departamentoPost,departamentoPut,departamentoDelete } = require('../controllers/departamento.controller');
+const { validateJWT } = require('../middlewares/validateJWT');
 const router = Router();
 
-router.get('/:id', [], departamentoGet)
+router.get('/:id', [
+    validateJWT,
+], departamentoGet)
 
-router.get('/', [], departamentosGet)
+router.get('/', [
+    validateJWT,
+], departamentosGet)
 
-router.post('/', [], departamentoPost)
+router.post('/', [
+    validateJWT,
+], departamentoPost)
 
-router.put('/:id', [], departamentoPut)
+router.put('/:id', [
+    validateJWT,
+], departamentoPut)
 
-router.delete('/:id', [], departamentoDelete)
+router.delete('/:id', [
+    validateJWT,
+], departamentoDelete)
 
 module.exports = router;

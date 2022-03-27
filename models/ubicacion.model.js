@@ -19,4 +19,10 @@ const UbicacionSchema = Schema({
     
 })
 
+UbicacionSchema.methods.toJSON = function() {
+    const { __v, _id, ...ubicacion } = this.toObject();
+    ubicacion.uid = _id;
+    return ubicacion;
+}
+
 module.exports = model('Ubicacion', UbicacionSchema);

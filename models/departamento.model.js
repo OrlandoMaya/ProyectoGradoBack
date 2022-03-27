@@ -9,4 +9,10 @@ const DepartamentoSchema = Schema({
     
 })
 
+DepartamentoSchema.methods.toJSON = function() {
+    const { __v, _id, ...departamento } = this.toObject();
+    departamento.uid = _id;
+    return departamento;
+}
+
 module.exports = model('Departamento', DepartamentoSchema);

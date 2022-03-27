@@ -22,4 +22,10 @@ const EstacionSchema = Schema({
     
 })
 
+EstacionSchema.methods.toJSON = function() {
+    const { __v, _id, ...estacion } = this.toObject();
+    estacion.uid = _id;
+    return estacion;
+}
+
 module.exports = model('Estacion', EstacionSchema);
