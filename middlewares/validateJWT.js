@@ -3,6 +3,7 @@ const Usuario = require('../models/usuario.model');
 const jwt = require('jsonwebtoken');
 
 const validateJWT = (req = request, res = response, next) => {
+    const token = req.header('Authorization')
     if (!token) {
         return res.status(401).json({
             msg: 'No hay un token para autenticar'
