@@ -25,7 +25,7 @@ router.post('/', [
     // check('rol').custom(isRolValid),
     // validateForm
     validateJWT,
-    // isAdminRole
+    isAdminRole
 ], usuarioPost)
 
 router.put('/:id',[
@@ -34,7 +34,7 @@ router.put('/:id',[
 
 router.delete('/:id',[
     validateJWT,
-    // isAdminRole
+    isAdminRole
 ],usuarioDelete)
 
 router.post('/login',[],login)
