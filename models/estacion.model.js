@@ -34,16 +34,6 @@ const EstacionSchema = Schema({
         required:[true],
         default:false
     },
-
-    // Template donde se usa
-    // templateId:{
-    //     type:String,
-    //     required:[true],
-    // },
-    // templateName:{
-    //     type:String,
-    //     required:[true],
-    // },
     createTime:{
         type:Number
     }
