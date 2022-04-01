@@ -19,11 +19,6 @@ const EstacionSchema = Schema({
         ref: 'Ubicacion',
         required:true
     },
-    // Id del usuario que realizo el mantenimiento
-    // userId:{
-    //     type:String,
-    //     required:[true]
-    // },
     dId:{
         type:String,
         unique:true,
