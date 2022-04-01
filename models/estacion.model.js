@@ -18,7 +18,36 @@ const EstacionSchema = Schema({
         type:Schema.Types.ObjectId,
         ref: 'Ubicacion',
         required:true
+    },
+    // Id del usuario que realizo el mantenimiento
+    // userId:{
+    //     type:String,
+    //     required:[true]
+    // },
+    dId:{
+        type:String,
+        unique:true,
+        required:[true]
+    },
+    selected:{
+        type:Boolean,
+        required:[true],
+        default:false
+    },
+
+    // Template donde se usa
+    // templateId:{
+    //     type:String,
+    //     required:[true],
+    // },
+    // templateName:{
+    //     type:String,
+    //     required:[true],
+    // },
+    createTime:{
+        type:Number
     }
+
     
 })
 
