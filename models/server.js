@@ -14,6 +14,7 @@ class Server {
         this.estacionPath='/api/estacion';
         this.mantenimientoPath='/api/mantenimiento';
         this.ubicacionPath='/api/ubicacion';
+        this.webhookPath='/api/webhook'
         this.connectDB();
         this.middlewares();
         this.routes();
@@ -38,6 +39,7 @@ class Server {
         this.app.use(this.estacionPath, require('../routes/estacion'));
         this.app.use(this.mantenimientoPath, require('../routes/mantenimiento'));
         this.app.use(this.usuarioPath, require('../routes/usuario'));
+        this.app.use(this.webhookPath, require('../routes/webhook'))
         
     }
 
