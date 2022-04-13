@@ -5,7 +5,6 @@ const { check } = require('express-validator');
 const { validateForm } = require('../middlewares/validateField');
 const { validateJWT } = require('../middlewares/validateJWT');
 const { isAdminRole } = require('../middlewares/validateRol');
-// const { isRolValid, isEmailCreated } = require('../helpers/db-validators');
 const router = Router();
 
 router.post('/get-info', [
