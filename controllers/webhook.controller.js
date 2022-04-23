@@ -72,6 +72,7 @@ async function createResources() {
     }, 1000);
   } catch (error) {
     console.log("Error creating resources");
+    
     console.log(error);
   }
 }
