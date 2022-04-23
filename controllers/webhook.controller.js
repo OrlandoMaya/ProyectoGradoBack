@@ -3,6 +3,7 @@ const Usuario = require("../models/usuario.model");
 const bcryptjs = require("bcryptjs");
 const axios = require("axios");
 const { ignore } = require("nodemon/lib/rules");
+const { Control } =require("../models/control.model")
 
 const auth = {
   auth: {
@@ -14,11 +15,16 @@ const auth = {
 global.saverResource = null;
 global.alarmResource = null;
 
-const getInfoInConsole = async (req, res = response) => {
-  const data = req.body;
-  console.log(data);
+const saveInfo = async (req, res = response) => {
 
-  res.json({});
+  // if(req.headers.token!="fl0wr1v3r"){
+  //   req.sendStatus(401);
+  //   return
+  // }
+  const data = req.body;
+  console.log(data)
+
+  res.json(data);
 };
 
 //RECURSOS
@@ -61,36 +67,38 @@ async function createResources() {
     }
 
     setTimeout(() => {
-        console.log("***** Emqx WH resources created! :) *****".green);
-        getRecursos();
+      console.log("***** Emqx WH resources created! :) *****".green);
+      getRecursos();
     }, 1000);
-
   } catch (error) {
     console.log("Error creating resources");
     console.log(error);
   }
 }
 
-const getRecursos = async (req, res = response) => {
-  const info = await axios.get(`${process.env.EMQXURL}resources/`, auth);
-  const size = info.data.data.length;
-  console.log(size)
-  if (info.status == 200) {
-    if (size == 0) {
-        console.log("creating")
-      createResources();
-    } else if (size == 2) {
-      info.data.data.forEach((resource) => {
-        if (resource.description == "alarm-webhook") {
-          global.alarmResource = resource;
-        }
-        if (resource.description == "saver-webhook") {
-          global.alarmResource = resource;
-        }
-      });
+async function getRecursos() {
+  try {
+    const info = await axios.get(`${process.env.EMQXURL}resources/`, auth);
+    const size = info.data.data.length;
+    if (info.status == 200) {
+      if (size == 0) {
+        console.log("creating");
+        createResources();
+      } else if (size == 2) {
+        info.data.data.forEach((resource) => {
+          if (resource.description == "alarm-webhook") {
+            global.alarmResource = resource;
+          }
+          if (resource.description == "saver-webhook") {
+            global.saverResource = resource;
+          }
+        });
+      }
     }
+  } catch (error) {
+    console.log(error);
   }
-};
+}
 
 const getRecurso = async (req, res = response) => {};
 
@@ -102,15 +110,82 @@ const deleteRecurso = async (req, res = response) => {};
 
 //REGLAS
 
-const getReglas = async (req, res = response) => {};
+async function getReglas() {
+  try {
+    const info = await axios.get(`${process.env.EMQXURL}rules/`, newRule, auth);
+    return info.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-const getRegla = async (req, res = response) => {};
-const postRegla = async (req, res = response) => {};
-const updateRegla = async (req, res = response) => {};
-const deleteRegla = async (req, res = response) => {};
+async function getRegla(id) {
+  try {
+    const info = await axios.get(
+      `${process.env.EMQXURL}rules/${id}`,
+      newRule,
+      auth
+    );
+    return info.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function postRegla(req) {
+  try {
+    const topic = `flowriver/${req.body.topic}`;
+    const rawsql = `SELECT topic, payload FROM "${topic}"`;
+    const newRule = {
+      rawsql,
+      actions: [
+        {
+          name: "data_to_webserver",
+          params: {
+            $resource: global.saverResource.id,
+            path:"saver-webhook"
+          },
+        },
+      ],
+      description: "SAVER-RULE",
+      enabled: req.body.enabled,
+    };
+    const info = await axios.post(
+      `${process.env.EMQXURL}rules/`,
+      newRule,
+      auth
+    );
+    return info.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function updateRegla(id, status) {
+  try {
+    const newRule = {
+      enabled: status,
+    };
+    const info = await axios.put(
+      `${process.env.EMQXURL}rules/${id}`,
+      newRule,
+      auth
+    );
+    return info.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function deleteRegla(id) {
+  const info = await axios.delete(`${process.env.EMQXURL}rules/${id}`, auth);
+  return info.data.data;
+}
+
+setTimeout(() => {
+  getRecursos();
+}, 1000);
 
 module.exports = {
-  getInfoInConsole,
+  saveInfo,
   getRecurso,
   getRecursos,
   postRecurso,

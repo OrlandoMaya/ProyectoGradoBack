@@ -21,10 +21,10 @@ const ubicacionPost = async(req, res = response) => {
     const body = req.body;
     const ubicacion = new Ubicacion(body);
     ubicacion.save()
-
-    res.json({
-        ubicacion
-    })
+    return ubicacion;
+    // res.json({
+    //     ubicacion
+    // })
 }
 
 const ubicacionPut = async(req, res = response) => {

@@ -17,8 +17,10 @@ const ControlSchema = Schema({
     precicipitacion:{
         type: Number
     },
-    
-    idUbicación:{
+    fecha:{
+        type:Date
+    },
+    idEstacion:{
         type:Schema.Types.ObjectId,
         ref: 'Estacion',
         required:true
@@ -31,7 +33,5 @@ ControlSchema.methods.toJSON = function() {
     control.uid = _id;
     return control;
 }
-
-module.exports = model('Control', ControlSchema);
 
 module.exports = model('Control', ControlSchema);

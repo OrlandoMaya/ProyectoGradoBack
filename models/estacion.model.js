@@ -6,31 +6,35 @@ const EstacionSchema = Schema({
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
-    inicio:{
-        type: Date,
-        required: [true, 'La fecha de inicio es obligatoria']
-    },
+    // inicio:{
+    //     type: Date,
+    //     required: [true, 'La fecha de inicio es obligatoria']
+    // },
     estado:{
         type:String,
         emun:['Operando','Desactivado','Fallando']
     },
-    idUbicación:{
+    idUbicacion:{
         type:Schema.Types.ObjectId,
         ref: 'Ubicacion',
         required:true
     },
-    dId:{
+    topic:{
         type:String,
         unique:true,
         required:[true]
     },
-    selected:{
+    ruleId:{
+        type:String
+    },
+    enabled:{
         type:Boolean,
         required:[true],
-        default:false
+        default:true
     },
     createTime:{
-        type:Number
+        type:Date,
+        default: Date.now
     }
 
     
