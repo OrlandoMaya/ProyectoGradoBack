@@ -3,7 +3,8 @@ const Usuario = require("../models/usuario.model");
 const bcryptjs = require("bcryptjs");
 const axios = require("axios");
 const { ignore } = require("nodemon/lib/rules");
-const { Control } =require("../models/control.model")
+const Control =require("../models/control.model");
+const Estacion = require("../models/estacion.model");
 
 const auth = {
   auth: {
@@ -17,14 +18,25 @@ global.alarmResource = null;
 
 const saveInfo = async (req, res = response) => {
 
-  // if(req.headers.token!="fl0wr1v3r"){
-  //   req.sendStatus(401);
-  //   return
-  // }
+  if(req.headers.token!="fl0wr1v3r"){
+    req.sendStatus(401);
+    return
+  }
   const data = req.body;
-  console.log(data)
+  const topic = req.body.topic.split("/")[1];
+  const estacion = await Estacion.findOne({topic})
+  const controlInfo=JSON.parse(data.payload);
+  const control = await Control.create({
+    humedad:controlInfo.Hum,
+    temperatura:controlInfo.Temp,
+    nivelCauce:controlInfo.NivelAgua,
+    velocidadCauce:controlInfo.VelAgua,
+    precipitacion:controlInfo.Prec,
+    fecha:controlInfo.Fecha,
+    idEstacion:estacion._id
+  })
 
-  res.json(data);
+  res.json(control);
 };
 
 //RECURSOS
@@ -34,8 +46,7 @@ async function createResources() {
     const resource1 = {
       type: "web_hook",
       config: {
-        url: "http://localhost:3000/api/webhook",
-        headers: { token: "fl0wr1v3r" },
+        url: "http://localhost:3000/api/webhook/saver-webhook",
         method: "POST",
       },
       description: "saver-webhook",
@@ -43,8 +54,7 @@ async function createResources() {
     const resource2 = {
       type: "web_hook",
       config: {
-        url: "http://localhost:3000/api/webhook",
-        headers: { token: "fl0wr1v3r" },
+        url: "http://localhost:3000/api/webhook/saver-webhook",
         method: "POST",
       },
       description: "alarm-webhook",
@@ -72,7 +82,7 @@ async function createResources() {
     }, 1000);
   } catch (error) {
     console.log("Error creating resources");
-    
+
     console.log(error);
   }
 }
@@ -144,7 +154,7 @@ async function postRegla(req) {
           name: "data_to_webserver",
           params: {
             $resource: global.saverResource.id,
-            path:"saver-webhook"
+            headers: { "content-type": "application/json", "token": "fl0wr1v3r" },
           },
         },
       ],
