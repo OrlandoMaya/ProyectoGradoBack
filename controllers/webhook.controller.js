@@ -17,6 +17,7 @@ global.saverResource = null;
 global.alarmResource = null;
 
 const saveInfo = async (req, res = response) => {
+try{
 
   if(req.headers.token!="fl0wr1v3r"){
     req.sendStatus(401);
@@ -35,8 +36,12 @@ const saveInfo = async (req, res = response) => {
     fecha:controlInfo.Fecha,
     idEstacion:estacion._id
   })
-
+  
   res.json(control);
+}catch (error) {
+  console.log("Error creating resources");
+  console.log(error);
+}
 };
 
 //RECURSOS
@@ -82,7 +87,6 @@ async function createResources() {
     }, 1000);
   } catch (error) {
     console.log("Error creating resources");
-
     console.log(error);
   }
 }
