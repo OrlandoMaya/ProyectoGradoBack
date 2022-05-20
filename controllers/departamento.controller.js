@@ -4,7 +4,7 @@ const Departamento = require('../models/departamento.model');
 const departamentosGet = async(req, res = response) => {
     const departamentoes = await Departamento.find()
     res.json({
-        departamentoes
+        departamentos
     })
 }
 
