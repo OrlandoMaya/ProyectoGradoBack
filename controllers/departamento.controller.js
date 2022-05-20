@@ -2,7 +2,7 @@ const { response } = require('express');
 const Departamento = require('../models/departamento.model');
 
 const departamentosGet = async(req, res = response) => {
-    const departamentoes = await Departamento.find()
+    const departamentos = await Departamento.find()
     res.json({
         departamentos
     })
