@@ -29,7 +29,6 @@ const EstacionSchema = Schema({
     },
     enabled:{
         type:Boolean,
-        required:[true],
         default:true
     },
     createTime:{

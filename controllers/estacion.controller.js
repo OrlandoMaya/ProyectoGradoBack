@@ -21,18 +21,26 @@ const estacionGet = async(req, res = response) => {
 }
 
 const estacionPost = async(req, res = response) => {
-    const body = req.body;
-    const estacion = new Estacion(body);
-    req.body.enabled=estacion.enabled;
-    const ubicacion=await ubicacionPost(req,res);
-    const regla=await postRegla(req,res);
-    estacion.idUbicacion=ubicacion._id;
-    estacion.ruleId=regla.id;
-    estacion.save()
-
-    res.json({
-        estacion
-    })
+    try{
+        
+        const body = req.body;
+        const estacion = new Estacion(body);
+        req.body.enabled=estacion.enabled;
+        const ubicacion=await ubicacionPost(req,res);
+        const regla=await postRegla(req,res);
+        estacion.idUbicacion=ubicacion._id;
+        estacion.ruleId=regla.id;
+        console.log(estacion)
+        estacion.save()
+    
+        res.json({
+            estacion
+        })
+    }catch(e){
+        res.json({
+            error:"Topic duplicado"
+        })
+    }
 }
 
 const estacionPut = async(req, res = response) => {
