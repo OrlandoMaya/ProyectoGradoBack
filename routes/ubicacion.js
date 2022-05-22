@@ -4,7 +4,7 @@ const { validateJWT } = require('../middlewares/validateJWT');
 const router = Router();
 
 router.get('/:id', [
-    validateJWT,
+    validateJWT, 
 ], ubicacionGet)
 
 router.get('/', [
