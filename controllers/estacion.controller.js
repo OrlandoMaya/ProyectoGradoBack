@@ -54,6 +54,7 @@ const estacionesGet = async (req, res = response) => {
       },
     },
   ]);
+  //Info
   res.json({
     estaciones,
   });
