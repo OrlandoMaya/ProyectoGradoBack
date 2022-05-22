@@ -8,7 +8,7 @@ router.get('/:id', [
 ], ubicacionGet)
 
 router.get('/', [
-    validateJWT,
+    
 ], ubicacionesGet)
 
 router.post('/', [
