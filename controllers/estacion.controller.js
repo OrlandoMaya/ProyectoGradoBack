@@ -43,7 +43,7 @@ const estacionesGet = async (req, res = response) => {
 
     {
       $project: {
-        _id: "$_id",
+        uid: "$_id",
         nombre: "$nombre",
         topic:"$topic",
         longitud: "$ubicacion.longitud",
@@ -100,7 +100,7 @@ const estacionGet = async (req, res = response) => {
 
     {
       $project: {
-        _id: "$_id",
+        uid: "$_id",
         nombre: "$nombre",
         topic:"$topic",
         longitud: "$ubicacion.longitud",
