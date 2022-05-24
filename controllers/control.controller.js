@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { aggregate, Types } = require("mongoose");
 const Control = require('../models/control.model');
 
 const controlesGet = async(req, res = response) => {
@@ -11,6 +12,21 @@ const controlesGet = async(req, res = response) => {
 const controlGet = async(req, res = response) => {
     const { id } = req.params;
     const control = await Control.findById(id);
+
+    res.json({
+        control
+    })
+}
+
+const controlesGetByStation = async(req, res = response) => {
+    const { id,quantity } = req.params;
+    const quantityInt=parseInt(quantity)
+    const control = await Control.aggregate([
+        {$match:{idEstacion:Types.ObjectId(id)}},
+        {$sort: {fecha:-1}},
+        {$limit: quantityInt}
+    ])
+    console.log(control)
 
     res.json({
         control
@@ -49,5 +65,6 @@ module.exports = {
     controlGet,
     controlesGet,
     controlPut,
-    controlPost
+    controlPost,
+    controlesGetByStation
 }
