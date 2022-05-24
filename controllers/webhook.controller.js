@@ -18,7 +18,8 @@ global.alarmResource = null;
 
 const saveInfo = async (req, res = response) => {
 try{
-
+  req.body.payload=req.body.payload.replaceAll("\'","\"")
+  console.log(req.body)
   if(req.headers.token!="fl0wr1v3r"){
     req.sendStatus(401);
     return
