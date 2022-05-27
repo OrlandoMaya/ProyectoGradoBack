@@ -35,7 +35,6 @@ try{
     velocidadCauce:controlInfo.VelAgua,
     precipitacion:controlInfo.Prec,
     fecha:controlInfo.Fecha,
-    precipitacion:controlInfo.Prec,
     idEstacion:estacion._id
   })
   
