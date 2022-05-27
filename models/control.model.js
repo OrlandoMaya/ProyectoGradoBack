@@ -14,7 +14,7 @@ const ControlSchema = Schema({
     velocidadCauce: {
         type: Number
     },
-    precicipitacion:{
+    precipitacion:{
         type: Number
     },
     fecha:{
