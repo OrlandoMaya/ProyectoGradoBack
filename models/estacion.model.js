@@ -10,6 +10,12 @@ const EstacionSchema = Schema({
     //     type: Date,
     //     required: [true, 'La fecha de inicio es obligatoria']
     // },
+    nivelPrecaucion:{
+        type:number
+    },
+    nivelAlerta:{
+        type:number
+    },
     estado:{
         type:String,
         emun:['Operando','Desactivado','Fallando']
