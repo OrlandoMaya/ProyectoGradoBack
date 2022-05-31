@@ -6,10 +6,7 @@ const EstacionSchema = Schema({
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
-    // inicio:{
-    //     type: Date,
-    //     required: [true, 'La fecha de inicio es obligatoria']
-    // },
+    
     nivelPrecaucion:{
         type:Number
     },
