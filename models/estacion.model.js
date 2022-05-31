@@ -11,10 +11,10 @@ const EstacionSchema = Schema({
     //     required: [true, 'La fecha de inicio es obligatoria']
     // },
     nivelPrecaucion:{
-        type:number
+        type:Number
     },
     nivelAlerta:{
-        type:number
+        type:Number
     },
     estado:{
         type:String,
