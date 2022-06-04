@@ -13,10 +13,6 @@ const EstacionSchema = Schema({
     nivelAlerta:{
         type:Number
     },
-    estado:{
-        type:String,
-        emun:['Operando','Desactivado','Fallando']
-    },
     idUbicacion:{
         type:Schema.Types.ObjectId,
         ref: 'Ubicacion',

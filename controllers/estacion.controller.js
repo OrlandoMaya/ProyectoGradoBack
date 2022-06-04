@@ -4,6 +4,7 @@ const { postRegla, updateRegla, deleteRegla } = require("./webhook.controller");
 const { ubicacionPost } = require("./ubicacion.controller");
 const Departamento = require("../models/departamento.model");
 const { aggregate, Types } = require("mongoose");
+const { enable } = require("express/lib/application");
 
 const estacionesGet = async (req, res = response) => {
   const estaciones = await Estacion.aggregate([
@@ -50,7 +51,7 @@ const estacionesGet = async (req, res = response) => {
         latitud: "$ubicacion.latitud",
         ciudad: "$ciudad.nombre",
         departamento: "$departamento.nombre",
-        estado:"$estado"
+        enabled:"$enabled"
       },
     },
   ]);
@@ -107,7 +108,7 @@ const estacionGet = async (req, res = response) => {
         latitud: "$ubicacion.latitud",
         ciudad: "$ciudad.nombre",
         departamento: "$departamento.nombre",
-        estado:"$estado"
+        enabled:"$enabled"
       },
     },
   ]);
