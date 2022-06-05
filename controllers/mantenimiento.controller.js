@@ -2,7 +2,41 @@ const { response } = require('express');
 const Mantenimiento = require('../models/mantenimiento.model');
 
 const mantenimientosGet = async(req, res = response) => {
-    const mantenimientoes = await Mantenimiento.find()
+    const mantenimientoes = await Mantenimiento.aggregate([
+        {
+            $lookup: {
+              from: "usuarios",
+              localField: "idUsuario",
+              foreignField: "_id",
+              as: "usuario",
+            },
+          },
+          {
+            $unwind: "$usuario",
+          },
+          {
+            $lookup: {
+              from: "estacions",
+              localField: "idEstacion",
+              foreignField: "_id",
+              as: "estacion",
+            },
+          },
+          {
+            $unwind: "$estacion",
+          },
+          {
+            $project: {
+              uid: "$_id",
+              fechaInicio: "$fechaInicio",
+              fechaFin:"$fechaFin",
+              estado: "$estado",
+              observaciones: "$observaciones",
+              estacion: "$estacion.nombre",
+              usuario: "$usuario.nombre",
+            },
+          },
+    ])
     res.json({
         mantenimientoes
     })
@@ -10,7 +44,41 @@ const mantenimientosGet = async(req, res = response) => {
 
 const mantenimientoGet = async(req, res = response) => {
     const { id } = req.params;
-    const mantenimiento = await Mantenimiento.findById(id);
+    const mantenimiento = await Mantenimiento.aggregate([
+        {
+            $lookup: {
+              from: "usuarios",
+              localField: "idUsuario",
+              foreignField: "_id",
+              as: "usuario",
+            },
+          },
+          {
+            $unwind: "$usuario",
+          },
+          {
+            $lookup: {
+              from: "estacions",
+              localField: "idEstacion",
+              foreignField: "_id",
+              as: "estacion",
+            },
+          },
+          {
+            $unwind: "$estacion",
+          },
+          {
+            $project: {
+              uid: "$_id",
+              fechaInicio: "$fechaInicio",
+              fechaFin:"$fechaFin",
+              estado: "$estado",
+              observaciones: "$observaciones",
+              estacion: "$estacion.nombre",
+              usuario: "$usuario.nombre",
+            },
+          },
+    ])
 
     res.json({
         mantenimiento
