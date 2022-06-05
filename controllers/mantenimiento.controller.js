@@ -19,6 +19,7 @@ const mantenimientoGet = async(req, res = response) => {
 
 const mantenimientoPost = async(req, res = response) => {
     const body = req.body;
+    console.log(body)
     const mantenimiento = new Mantenimiento(body);
     mantenimiento.save()
 

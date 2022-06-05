@@ -7,8 +7,10 @@ const MantenimientoSchema = Schema({
         required: [true, 'La fecha de inicio es obligatoria']
     },
     fechaFin:{
-        type: Date,
-        required: [true, 'La fecha de finalizacion es obligatoria']
+        type: Date
+    },
+    estado:{
+        type:String
     },
     observaciones:{
         type:String
