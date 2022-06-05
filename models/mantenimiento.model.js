@@ -2,13 +2,16 @@ const { Schema, model } = require('mongoose');
 
 
 const MantenimientoSchema = Schema({
-    fecha:{
+    fechaInicio:{
         type: Date,
         required: [true, 'La fecha de inicio es obligatoria']
     },
+    fechaFin:{
+        type: Date,
+        required: [true, 'La fecha de finalizacion es obligatoria']
+    },
     observaciones:{
-        type:String,
-        emun:['Operando','Desactivado','Fallando']
+        type:String
     },
     idEstacion:{
         type:Schema.Types.ObjectId,

@@ -186,6 +186,7 @@ async function updateRegla(id, status) {
       newRule,
       auth
     );
+    console.log(info)
     return info.data.data;
   } catch (error) {
     console.log(error);
