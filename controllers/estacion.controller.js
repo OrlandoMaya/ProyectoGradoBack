@@ -51,7 +51,9 @@ const estacionesGet = async (req, res = response) => {
         latitud: "$ubicacion.latitud",
         ciudad: "$ciudad.nombre",
         departamento: "$departamento.nombre",
-        enabled:"$enabled"
+        enabled:"$enabled",
+        nivelPrecaucion:"$nivelPrecaucion",
+        nivelAlerta:"$nivelAlerta"
       },
     },
   ]);
@@ -108,7 +110,9 @@ const estacionGet = async (req, res = response) => {
         latitud: "$ubicacion.latitud",
         ciudad: "$ciudad.nombre",
         departamento: "$departamento.nombre",
-        enabled:"$enabled"
+        enabled:"$enabled",
+        nivelPrecaucion:"$nivelPrecaucion",
+        nivelAlerta:"$nivelAlerta"
       },
     },
   ]);
