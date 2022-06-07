@@ -13,7 +13,7 @@ const login = async(req, res = response) => {
         const user = await Usuario.findOne({ correo:email })
         if (!user) {
             return res.status(400).json({
-                msg: 'El correo o contraseña son incorrectos - correo'
+                msg: 'El correo o contraseña son incorrectos'
             })
         }
 
@@ -21,7 +21,7 @@ const login = async(req, res = response) => {
         const validPassword = bcrypt.compareSync(password, user.password);
         if (!validPassword) {
             return res.status(400).json({
-                msg: 'El correo o contraseña son incorrectos - password'
+                msg: 'El correo o contraseña son incorrectos'
             })
         }
 

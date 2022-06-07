@@ -7,120 +7,134 @@ const { aggregate, Types } = require("mongoose");
 const { enable } = require("express/lib/application");
 
 const estacionesGet = async (req, res = response) => {
-  const estaciones = await Estacion.aggregate([
-    {
-      $lookup: {
-        from: "ubicacions",
-        localField: "idUbicacion",
-        foreignField: "_id",
-        as: "ubicacion",
+  try {
+    const estaciones = await Estacion.aggregate([
+      {
+        $lookup: {
+          from: "ubicacions",
+          localField: "idUbicacion",
+          foreignField: "_id",
+          as: "ubicacion",
+        },
       },
-    },
-    {
-      $unwind: "$ubicacion",
-    },
-    {
-      $lookup: {
-        from: "ciudads",
-        localField: "ubicacion.idCiudad",
-        foreignField: "_id",
-        as: "ciudad",
+      {
+        $unwind: "$ubicacion",
       },
-    },
-    {
-      $unwind: "$ciudad",
-    },
-    {
-      $lookup: {
-        from: "departamentos",
-        localField: "ciudad.idDepartamento",
-        foreignField: "_id",
-        as: "departamento",
+      {
+        $lookup: {
+          from: "ciudads",
+          localField: "ubicacion.idCiudad",
+          foreignField: "_id",
+          as: "ciudad",
+        },
       },
-    },
-    {
-      $unwind: "$departamento",
-    },
+      {
+        $unwind: "$ciudad",
+      },
+      {
+        $lookup: {
+          from: "departamentos",
+          localField: "ciudad.idDepartamento",
+          foreignField: "_id",
+          as: "departamento",
+        },
+      },
+      {
+        $unwind: "$departamento",
+      },
 
-    {
-      $project: {
-        uid: "$_id",
-        nombre: "$nombre",
-        topic:"$topic",
-        longitud: "$ubicacion.longitud",
-        latitud: "$ubicacion.latitud",
-        ciudad: "$ciudad.nombre",
-        departamento: "$departamento.nombre",
-        enabled:"$enabled",
-        nivelPrecaucion:"$nivelPrecaucion",
-        nivelAlerta:"$nivelAlerta"
+      {
+        $project: {
+          uid: "$_id",
+          nombre: "$nombre",
+          topic: "$topic",
+          longitud: "$ubicacion.longitud",
+          latitud: "$ubicacion.latitud",
+          ciudad: "$ciudad.nombre",
+          departamento: "$departamento.nombre",
+          enabled: "$enabled",
+          nivelPrecaucion: "$nivelPrecaucion",
+          nivelAlerta: "$nivelAlerta",
+        },
       },
-    },
-  ]);
-  //Info
-  res.json({
-    estaciones,
-  });
+    ]);
+    //Info
+    res.json({
+      estaciones,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo obtener las estaciones",
+    });
+  }
 };
 
 const estacionGet = async (req, res = response) => {
-  const { id } = req.params;
-  const estacion = await Estacion.aggregate([
-    { $match: { _id: Types.ObjectId(id) } },
-    {
-      $lookup: {
-        from: "ubicacions",
-        localField: "idUbicacion",
-        foreignField: "_id",
-        as: "ubicacion",
+  try {
+    const { id } = req.params;
+    const estacion = await Estacion.aggregate([
+      { $match: { _id: Types.ObjectId(id) } },
+      {
+        $lookup: {
+          from: "ubicacions",
+          localField: "idUbicacion",
+          foreignField: "_id",
+          as: "ubicacion",
+        },
       },
-    },
-    {
-      $unwind: "$ubicacion",
-    },
-    {
-      $lookup: {
-        from: "ciudads",
-        localField: "ubicacion.idCiudad",
-        foreignField: "_id",
-        as: "ciudad",
+      {
+        $unwind: "$ubicacion",
       },
-    },
-    {
-      $unwind: "$ciudad",
-    },
-    {
-      $lookup: {
-        from: "departamentos",
-        localField: "ciudad.idDepartamento",
-        foreignField: "_id",
-        as: "departamento",
+      {
+        $lookup: {
+          from: "ciudads",
+          localField: "ubicacion.idCiudad",
+          foreignField: "_id",
+          as: "ciudad",
+        },
       },
-    },
-    {
-      $unwind: "$departamento",
-    },
+      {
+        $unwind: "$ciudad",
+      },
+      {
+        $lookup: {
+          from: "departamentos",
+          localField: "ciudad.idDepartamento",
+          foreignField: "_id",
+          as: "departamento",
+        },
+      },
+      {
+        $unwind: "$departamento",
+      },
 
-    {
-      $project: {
-        uid: "$_id",
-        nombre: "$nombre",
-        topic:"$topic",
-        longitud: "$ubicacion.longitud",
-        latitud: "$ubicacion.latitud",
-        ciudad: "$ciudad.nombre",
-        departamento: "$departamento.nombre",
-        enabled:"$enabled",
-        nivelPrecaucion:"$nivelPrecaucion",
-        nivelAlerta:"$nivelAlerta"
+      {
+        $project: {
+          uid: "$_id",
+          nombre: "$nombre",
+          topic: "$topic",
+          longitud: "$ubicacion.longitud",
+          latitud: "$ubicacion.latitud",
+          ciudad: "$ciudad.nombre",
+          departamento: "$departamento.nombre",
+          enabled: "$enabled",
+          nivelPrecaucion: "$nivelPrecaucion",
+          nivelAlerta: "$nivelAlerta",
+        },
       },
-    },
-  ]);
-  // const estacion = await Estacion.findById(id);
+    ]);
+    // const estacion = await Estacion.findById(id);
 
-  res.json({
-    estacion,
-  });
+    res.json({
+      estacion,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo obtener las estaciones",
+    });
+  }
 };
 
 const estacionPost = async (req, res = response) => {
@@ -138,30 +152,47 @@ const estacionPost = async (req, res = response) => {
     res.json({
       estacion,
     });
-  } catch (e) {
-    res.json({
-      error: "Topic duplicado",
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo crear la estacion",
     });
   }
 };
 
 const estacionPut = async (req, res = response) => {
-  const { id } = req.params;
-  const body = req.body;
-  const estacion = await Estacion.findByIdAndUpdate(id, body);
-  updateRegla(estacion.ruleId, body.enabled);
-  res.json({
-    estacion,
-  });
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const estacion = await Estacion.findByIdAndUpdate(id, body);
+    updateRegla(estacion.ruleId, body.enabled);
+    res.json({
+      estacion,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo actualizar la estacion",
+    });
+  }
 };
 
 const estacionDelete = async (req, res = response) => {
-  const { id } = req.params;
-  const estacion = await Estacion.findByIdAndDelete(id);
-  deleteRegla(estacion.ruleId);
-  res.json({
-    estacion,
-  });
+  try {
+    const { id } = req.params;
+    const estacion = await Estacion.findByIdAndDelete(id);
+    deleteRegla(estacion.ruleId);
+    res.json({
+      estacion,
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo eliminar la estacion",
+    });
+  }
+  
 };
 
 module.exports = {

@@ -1,39 +1,49 @@
-const { response } = require('express');
-const Usuario = require('../models/usuario.model');
-const bcryptjs = require('bcryptjs');
+const { response } = require("express");
+const Usuario = require("../models/usuario.model");
+const bcryptjs = require("bcryptjs");
 
-const usuariosGet = async(req, res = response) => {
-
+const usuariosGet = async (req, res = response) => {
+  try {
     const { limit = 20, from = 0 } = req.query;
 
     const resp = await Promise.all([
-        Usuario.countDocuments(),
-        Usuario.find()
-        .skip(Number(from))
-        .limit(Number(limit))
-    ])
+      Usuario.countDocuments(),
+      Usuario.find().skip(Number(from)).limit(Number(limit)),
+    ]);
 
     const [total, users] = resp;
 
     res.json({
-        total,
-        users
-    })
-}
+      total,
+      users,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo obtener los usuarios",
+    });
+  }
+};
 
-const usuarioGet = async(req, res = response) => {
-
+const usuarioGet = async (req, res = response) => {
+  try {
     const { id } = req.params;
 
-    const user = await Usuario.findById(id)
+    const user = await Usuario.findById(id);
 
     res.json({
-        user
-    })
-}
+      user,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo obtener el usuario",
+    });
+  }
+};
 
-const usuarioPost = async(req, res = response) => {
-
+const usuarioPost = async (req, res = response) => {
+  try {
     const { nombre, correo, password, rol } = req.body;
     const user = new Usuario({ nombre, correo, password, rol });
 
@@ -44,32 +54,52 @@ const usuarioPost = async(req, res = response) => {
     await user.save();
 
     res.json({
-        msg: "Aqui esta",
-        user
-    })
-}
+      msg: "Aqui esta",
+      user,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo crear el usuario",
+    });
+  }
+};
 
-const usuarioPut = async(req, res = response) => {
+const usuarioPut = async (req, res = response) => {
+  try {
     const { id } = req.params;
     const body = req.body;
     const usuario = await Usuario.findByIdAndUpdate(id, body);
     res.json({
-        usuario
-    })
-}
+      usuario,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo actualizar el usuario",
+    });
+  }
+};
 
-const usuarioDelete = async(req, res = response) => {
+const usuarioDelete = async (req, res = response) => {
+  try {
     const { id } = req.params;
     const usuario = await Usuario.findByIdAndDelete(id);
     res.json({
-        usuario
-    })
-}
+      usuario,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo eliminar el usuario",
+    });
+  }
+};
 
 module.exports = {
-    usuarioGet,
-    usuariosGet,
-    usuarioPost,
-    usuarioPut,
-    usuarioDelete
-}
+  usuarioGet,
+  usuariosGet,
+  usuarioPost,
+  usuarioPut,
+  usuarioDelete,
+};
