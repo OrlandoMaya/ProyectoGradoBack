@@ -18,16 +18,15 @@ global.alarmResource = null;
 
 const saveInfo = async (req, res = response) => {
 try{
-  req.body.payload=req.body.payload.replaceAll("\'","\"")
-  console.log(req.body)
+  console.log(payload.body)
+  const payload=req.body.payload.replaceAll("\'","\"")
   if(req.headers.token!="fl0wr1v3r"){
     req.sendStatus(401);
     return
   }
-  const data = req.body;
   const topic = req.body.topic.split("/")[1];
   const estacion = await Estacion.findOne({topic})
-  const controlInfo=JSON.parse(data.payload);
+  const controlInfo=JSON.parse(payload);
   const control = await Control.create({
     humedad:controlInfo.Hum,
     temperatura:controlInfo.Temp,
