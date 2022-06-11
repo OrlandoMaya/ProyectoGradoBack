@@ -6,6 +6,8 @@ const { ignore } = require("nodemon/lib/rules");
 const Control =require("../models/control.model");
 const Estacion = require("../models/estacion.model");
 
+
+//coinfig
 const auth = {
   auth: {
     username: "admin",
