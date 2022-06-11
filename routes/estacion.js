@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { estacionGet,estacionesGet,estacionPost,estacionPut,estacionDelete } = require('../controllers/estacion.controller');
+const { estacionGetByTopic,estacionesGet,estacionPost,estacionPut,estacionDelete } = require('../controllers/estacion.controller');
 const { validateJWT } = require('../middlewares/validateJWT');
 const router = Router();
 
@@ -10,6 +10,10 @@ router.get('/:id', [
 router.get('/', [
     
 ], estacionesGet)
+
+router.get('/topic/:topic', [
+    
+], estacionGetByTopic)
 
 router.post('/', [
     validateJWT,

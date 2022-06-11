@@ -137,6 +137,73 @@ const estacionGet = async (req, res = response) => {
   }
 };
 
+const estacionGetByTopic = async (req, res = response) => {
+  try {
+    const { topic } = req.params;
+    const estacion = await Estacion.aggregate([
+      { $match: { topic } },
+      {
+        $lookup: {
+          from: "ubicacions",
+          localField: "idUbicacion",
+          foreignField: "_id",
+          as: "ubicacion",
+        },
+      },
+      {
+        $unwind: "$ubicacion",
+      },
+      {
+        $lookup: {
+          from: "ciudads",
+          localField: "ubicacion.idCiudad",
+          foreignField: "_id",
+          as: "ciudad",
+        },
+      },
+      {
+        $unwind: "$ciudad",
+      },
+      {
+        $lookup: {
+          from: "departamentos",
+          localField: "ciudad.idDepartamento",
+          foreignField: "_id",
+          as: "departamento",
+        },
+      },
+      {
+        $unwind: "$departamento",
+      },
+
+      {
+        $project: {
+          uid: "$_id",
+          nombre: "$nombre",
+          topic: "$topic",
+          longitud: "$ubicacion.longitud",
+          latitud: "$ubicacion.latitud",
+          ciudad: "$ciudad.nombre",
+          departamento: "$departamento.nombre",
+          enabled: "$enabled",
+          nivelPrecaucion: "$nivelPrecaucion",
+          nivelAlerta: "$nivelAlerta",
+        },
+      },
+    ]);
+    // const estacion = await Estacion.findById(id);
+
+    res.json({
+      estacion,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      of: false,
+      body: "No se pudo obtener las estaciones",
+    });
+  }
+};
+
 const estacionPost = async (req, res = response) => {
   try {
     const body = req.body;
@@ -201,4 +268,5 @@ module.exports = {
   estacionesGet,
   estacionPut,
   estacionPost,
+  estacionGetByTopic
 };
