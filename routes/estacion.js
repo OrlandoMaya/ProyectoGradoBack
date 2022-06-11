@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { estacionGetByTopic,estacionesGet,estacionPost,estacionPut,estacionDelete } = require('../controllers/estacion.controller');
+const { estacionGetByTopic, estacionGet,estacionesGet,estacionPost,estacionPut,estacionDelete } = require('../controllers/estacion.controller');
 const { validateJWT } = require('../middlewares/validateJWT');
 const router = Router();
 
