@@ -12,7 +12,7 @@ const Usuario = require('../models/usuario.model');
 //Verificar si el correo existe
 const isEmailCreated = async(email) => {
 
-    const emailExists = await Usuario.findOne({ email });
+    const emailExists = await Usuario.findOne({ correo:email });
     if (emailExists) {
         throw new Error(`El correo ${email} ya existe.`);
         // return res.status(400).json({
