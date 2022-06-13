@@ -26,7 +26,7 @@ const login = async(req, res = response) => {
         }
 
         //Generar el JWT
-        const token = await generarJWT(user.id);
+        const token = await generarJWT(user.id,user.nombre,user.rol,user.email);
 
         res.json({
             user,
