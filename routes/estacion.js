@@ -16,6 +16,7 @@ router.get('/topic/:topic', [
 ], estacionGetByTopic)
 
 router.post('/', [
+    check('topic','No pueden existir mas de una estación con el mismo topico'),
     validateJWT,
 ], estacionPost)
 
