@@ -10,7 +10,7 @@ router.get('/:id', [
 router.get('/', [
     
 ], estacionesGet)
-
+//ADD CHECK
 router.get('/topic/:topic', [
     
 ], estacionGetByTopic)
