@@ -21,6 +21,7 @@ router.post('/', [
 ], estacionPost)
 
 router.put('/:id', [
+    check('topic','No pueden existir mas de una estación con el mismo topico'),
     validateJWT,
 ], estacionPut)
 
