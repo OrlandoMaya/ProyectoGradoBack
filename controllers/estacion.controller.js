@@ -207,18 +207,25 @@ const estacionGetByTopic = async (req, res = response) => {
 const estacionPost = async (req, res = response) => {
   try {
     const body = req.body;
-    const estacion = new Estacion(body);
-    req.body.enabled = estacion.enabled;
-    const ubicacion = await ubicacionPost(req, res);
-    const regla = await postRegla(req, res);
-    estacion.idUbicacion = ubicacion._id;
-    estacion.ruleId = regla.id;
-    console.log(estacion);
-    estacion.save();
-
-    res.json({
-      estacion,
-    });
+    const estacionExist = Estacion.find({ topic: body.topic });
+    if (!estacionExist) {
+      const estacion = new Estacion(body);
+      req.body.enabled = estacion.enabled;
+      const ubicacion = await ubicacionPost(req, res);
+      const regla = await postRegla(req, res);
+      estacion.idUbicacion = ubicacion._id;
+      estacion.ruleId = regla.id;
+      console.log(estacion);
+      estacion.save();
+      res.json({
+        estacion,
+      });
+    } else {
+      return res.status(401).json({
+        of: false,
+        body: "Ya existe una estacion con este topic",
+      });
+    }
   } catch (error) {
     return res.status(400).json({
       of: false,
@@ -252,14 +259,12 @@ const estacionDelete = async (req, res = response) => {
     res.json({
       estacion,
     });
-
   } catch (error) {
     return res.status(400).json({
       of: false,
       body: "No se pudo eliminar la estacion",
     });
   }
-  
 };
 
 module.exports = {
@@ -268,5 +273,5 @@ module.exports = {
   estacionesGet,
   estacionPut,
   estacionPost,
-  estacionGetByTopic
+  estacionGetByTopic,
 };
