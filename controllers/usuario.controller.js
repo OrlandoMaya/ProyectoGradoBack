@@ -45,18 +45,27 @@ const usuarioGet = async (req, res = response) => {
 const usuarioPost = async (req, res = response) => {
   try {
     const { nombre, correo, password, rol } = req.body;
-    const user = new Usuario({ nombre, correo, password, rol });
+    const userFinded = await Usuario.find({correo});
+    if(!userFinded){
+      const user = new Usuario({ nombre, correo, password, rol });
 
-    //Encriptar la contraseña
-    const salt = bcryptjs.genSaltSync();
-    user.password = bcryptjs.hashSync(password, salt);
-
-    await user.save();
-
-    res.json({
-      msg: "Aqui esta",
-      user,
-    });
+      //Encriptar la contraseña
+      const salt = bcryptjs.genSaltSync();
+      user.password = bcryptjs.hashSync(password, salt);
+  
+      await user.save();
+  
+      res.json({
+        msg: "Aqui esta",
+        user,
+      });
+    }else{
+      return res.status(400).json({
+        of: false,
+        body: "Email en uso",
+      });
+    }
+    
   } catch (error) {
     return res.status(400).json({
       of: false,
