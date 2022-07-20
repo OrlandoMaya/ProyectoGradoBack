@@ -242,7 +242,7 @@ const estacionPut = async (req, res = response) => {
     const body = req.body;
     const estacion = await Estacion.findByIdAndUpdate(id, body);
     const newUbicacion={latitud:body.latitud, longitud:body.longitud, idCiudad:body.idCiudad}
-    const ubicacion = await Ubicacion.findByIdAndUpdate(body.idUbicacion, newUbicacion);
+    const ubicacion = await Ubicacion.findByIdAndUpdate(estacion.idUbicacion, newUbicacion);
     updateRegla(estacion.ruleId, body.enabled);
     res.json({
       estacion,
