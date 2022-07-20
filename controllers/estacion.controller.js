@@ -237,25 +237,24 @@ const estacionPost = async (req, res = response) => {
 };
 
 const estacionPut = async (req, res = response) => {
-  try {
+  // try {
     const { id } = req.params;
     const body = req.body;
     const estacion = await Estacion.findByIdAndUpdate(id, body);
-    const newUbicacion={latitud:body.latitud, longitud:body.longitud}
+    const newUbicacion={latitud:body.latitud, longitud:body.longitud, idCiudad:body.idCiudad}
     const ubicacion = await Ubicacion.findByIdAndUpdate(body.idUbicacion, newUbicacion);
-    // const ciudad = await Ciudad.findByIdAndUpdate(ubicacion.idCiudad, {nombre:body.idCiudad});
-    // const departamento = await Departamento.findByIdAndUpdate(ciudad.idDepartamento, {nombre:body.idDepartamento});
     updateRegla(estacion.ruleId, body.enabled);
     res.json({
       estacion,
     });
-  } catch (error) {
-    return res.status(400).json({
-      of: false,
-      body: "No se pudo actualizar la estacion",
-      error
-    });
-  }
+  // } 
+  // catch (error) {
+  //   return res.status(400).json({
+  //     of: false,
+  //     body: "No se pudo actualizar la estacion",
+  //     error
+  //   });
+  // }
 };
 
 const estacionDelete = async (req, res = response) => {
