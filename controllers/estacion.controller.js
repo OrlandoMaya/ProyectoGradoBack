@@ -251,6 +251,7 @@ const estacionPut = async (req, res = response) => {
     return res.status(400).json({
       of: false,
       body: "No se pudo actualizar la estacion",
+      error
     });
   }
 };
