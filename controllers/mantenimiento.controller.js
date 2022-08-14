@@ -1,5 +1,7 @@
 const { response } = require("express");
+const { findById } = require("../models/mantenimiento.model");
 const Mantenimiento = require("../models/mantenimiento.model");
+const Estacion = require("../models/estacion.model");
 
 const mantenimientosGet = async (req, res = response) => {
   try {
@@ -105,7 +107,8 @@ const mantenimientoPost = async (req, res = response) => {
     console.log(body);
     const mantenimiento = new Mantenimiento(body);
     mantenimiento.save();
-  
+    const estacion = await Estacion.findById(body.idEstacion)
+    updateRegla(estacion.ruleId, false);
     res.json({
       mantenimiento,
     });
@@ -123,6 +126,8 @@ const mantenimientoPut = async (req, res = response) => {
     const { id } = req.params;
     const body = req.body;
     const mantenimiento = await Mantenimiento.findByIdAndUpdate(id, body);
+    const estacion = await Estacion.findById(mantenimiento.idEstacion)
+    updateRegla(estacion.ruleId, true);
     res.json({
       mantenimiento,
     });
