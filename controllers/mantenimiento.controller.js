@@ -108,7 +108,8 @@ const mantenimientoPost = async (req, res = response) => {
     console.log(body);
     const mantenimiento = new Mantenimiento(body);
     mantenimiento.save();
-    const estacion = await Estacion.findById(body.idEstacion)
+    const estacion = await Estacion.findByIdAndUpdate(body.idEstacion,{enabled:false})
+
     updateRegla(estacion.ruleId, false);
     res.json({
       mantenimiento,
@@ -127,7 +128,7 @@ const mantenimientoPut = async (req, res = response) => {
     const { id } = req.params;
     const body = req.body;
     const mantenimiento = await Mantenimiento.findByIdAndUpdate(id, body);
-    const estacion = await Estacion.findById(mantenimiento.idEstacion)
+    const estacion = await Estacion.findByIdAndUpdate(mantenimiento.idEstacion,{enabled:true})
     updateRegla(estacion.ruleId, true);
     res.json({
       mantenimiento,
