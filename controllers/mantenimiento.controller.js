@@ -2,6 +2,7 @@ const { response } = require("express");
 const { findById } = require("../models/mantenimiento.model");
 const Mantenimiento = require("../models/mantenimiento.model");
 const Estacion = require("../models/estacion.model");
+const { postRegla, updateRegla, deleteRegla } = require("./webhook.controller");
 
 const mantenimientosGet = async (req, res = response) => {
   try {
