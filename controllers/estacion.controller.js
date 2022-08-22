@@ -209,7 +209,7 @@ const estacionGetByTopic = async (req, res = response) => {
 const estacionPost = async (req, res = response) => {
   try {
     const body = req.body;
-    const estacionExist = Estacion.find({ topic: body.topic });
+    const estacionExist = await Estacion.find({ topic: body.topic });
     if (!estacionExist) {
       const estacion = new Estacion(body);
       req.body.enabled = estacion.enabled;
